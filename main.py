@@ -13,29 +13,46 @@ def get_text_after_germany(text: str):
         return None
 def read_first_two_lines(pdf_path):
     # Open the PDF file in binary mode
-    with open(pdf_path, 'rb') as pdf_file:
+    with ((((((open(pdf_path, 'rb') as pdf_file)))))):
         # Create a PDF reader object
         pdf_reader = PdfReader(pdf_file)
 
         # Get the text from the first two lines
         first_line= get_text_after_germany(pdf_reader.pages[0].extract_text().split('\n')[0]).replace('"','')
-        second_line = pdf_reader.pages[0].extract_text().split('\n')[1].strip().replace('"','')
+        second_line = pdf_reader.pages[0].extract_text().split('\n')[1].strip()\
+        .replace('"','')\
+        .replace('1.4','')\
+        .replace('2.04','')
+
 
     return first_line, second_line
 
-def rename_pdf_with_lines(pdf_path, new_name):
+import os
+
+def rename_pdf_with_lines(pdf_path, new_name, counter=1):
     # Get the directory and extension of the original PDF file
     directory, filename = os.path.split(pdf_path)
     base_name, extension = os.path.splitext(filename)
 
     # Create the new file name with the first two lines
-    new_filename = f"{new_name}{extension}"
+    if counter == 1:
+        new_filename = f"{new_name}{extension}"
+    else:
+        new_filename = f"{new_name}({counter}){extension}"
+
     new_path = os.path.join(directory, new_filename)
+
+    # Check if the new filename already exists
+    while os.path.exists(new_path):
+        counter += 1
+        new_filename = f"{new_name}({counter}){extension}"
+        new_path = os.path.join(directory, new_filename)
 
     # Rename the PDF file
     os.rename(pdf_path, new_path)
 
     print(f"File renamed to: {new_filename}")
+
 
 if __name__ == "__main__":
     # Get the current directory and its subdirectories
