@@ -13,7 +13,7 @@ def get_text_after_germany(text: str):
         return None
 def read_first_two_lines(pdf_path):
     # Open the PDF file in binary mode
-    with ((((((open(pdf_path, 'rb') as pdf_file)))))):
+    with (open(pdf_path, 'rb') as pdf_file):
         # Create a PDF reader object
         pdf_reader = PdfReader(pdf_file)
 
