@@ -18,8 +18,8 @@ def read_first_two_lines(pdf_path):
         pdf_reader = PdfReader(pdf_file)
 
         # Get the text from the first two lines
-        first_line= get_text_after_germany(pdf_reader.pages[0].extract_text().split('\n')[0])
-        second_line = pdf_reader.pages[0].extract_text().split('\n')[1].strip()
+        first_line= get_text_after_germany(pdf_reader.pages[0].extract_text().split('\n')[0]).replace('"','')
+        second_line = pdf_reader.pages[0].extract_text().split('\n')[1].strip().replace('"','')
 
     return first_line, second_line
 
@@ -29,7 +29,7 @@ def rename_pdf_with_lines(pdf_path, new_name):
     base_name, extension = os.path.splitext(filename)
 
     # Create the new file name with the first two lines
-    new_filename = f"{new_name}_{extension}"
+    new_filename = f"{new_name}{extension}"
     new_path = os.path.join(directory, new_filename)
 
     # Rename the PDF file
